@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useEffect } from "react";
 import Header from "../components/Header";
 
 import Home from "../components/Home";
@@ -8,19 +7,6 @@ import styles from "../styles/Index.module.css";
 
 export default function Index(props) {
   const { lights, rooms } = props;
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch("https://192.168.2.7/clip/v2/resource/light");
-        const json = await res.json();
-
-        console.log(1, json);
-      } catch (error) {
-        console.log(2, error);
-      }
-    })();
-  }, []);
 
   return (
     <>
