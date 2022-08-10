@@ -94,8 +94,6 @@ const Light = (props) => {
     return () => clearTimeout(interval);
   }, []);
 
-  console.log(color);
-
   return (
     <motion.rectAreaLight
       key={light.id}
