@@ -1,9 +1,21 @@
 html,
-body {
+body,
+#__next {
   padding: 0;
   margin: 0;
+  width: 100%;
+  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+canvas {
+  background: linear-gradient(to bottom, #020111 60%, #20202c 100%);
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+  top: 0%;
 }
 
 a {
@@ -13,14 +25,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
 }
