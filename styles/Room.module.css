@@ -1,0 +1,23 @@
+.room {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+}
+
+.room:hover {
+  background-color: blue;
+}
+
+.room__content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.room__content__lights {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
