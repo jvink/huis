@@ -1,31 +1,37 @@
+import ColorConverter from 'cie-rgb-color-converter';
+import { useEffect, useState } from 'react';
+
 import styles from '../styles/Light.module.css';
+
+const getRGB = (x, y, brightness) => ColorConverter.xyBriToRgb(x, y, brightness);
 
 export default function Light(props) {
     const { light } = props;
+    const initialColorFromXy = getRGB(light.color.xy.x, light.color.xy.y, light.dimming.brightness);
+    const initialColor = light.on.on ? `rgb(${initialColorFromXy.r}, ${initialColorFromXy.g}, ${initialColorFromXy.b})` : '#000000';
+    const [color, setColor] = useState(initialColor);
+    const POLL_INTERVAL = 1000 * 3; // 3 seconds
+    const randomExtraTime = Math.floor(Math.random() * (500 - 50 + 1) + 50); // 50-500ms random extra time
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            ; (async () => {
+                console.log(`Fetching light state for light ${light.metadata.name}`);
+                try {
+                    const res = await fetch(`/api/light/${light.id}`);
+                    const json = await res.json();
+                    const newLight = json[0];
+                    const newColor = getRGB(newLight.color.xy.x, newLight.color.xy.y, newLight.dimming.brightness);
+
+                    return setColor(`rgb(${newColor.r}, ${newColor.g}, ${newColor.b})`);
+                } catch (error) { }
+            })();
+        }, POLL_INTERVAL + randomExtraTime);
+
+        return () => clearTimeout(interval);
+    }, []);
 
     return (
-        <div className={styles.light} style={{ backgroundColor: light.on.on ? xyBriToRgb(light.color.xy.x, light.color.xy.y, 100) : '#000' }}>
-        </div>
+        <div className={styles.light} style={{ backgroundColor: color }} />
     );
-}
-
-function xyBriToRgb(x, y, bri) {
-    let z = 1.0 - x - y;
-    let Y = bri / 255.0; // Brightness of lamp
-    let X = (Y / y) * x;
-    let Z = (Y / y) * z;
-    let r = X * 1.612 - Y * 0.203 - Z * 0.302;
-    let g = -X * 0.509 + Y * 1.412 + Z * 0.066;
-    let b = X * 0.026 - Y * 0.072 + Z * 0.962;
-    r = r <= 0.0031308 ? 12.92 * r : (1.0 + 0.055) * Math.pow(r, (1.0 / 2.4)) - 0.055;
-    g = g <= 0.0031308 ? 12.92 * g : (1.0 + 0.055) * Math.pow(g, (1.0 / 2.4)) - 0.055;
-    b = b <= 0.0031308 ? 12.92 * b : (1.0 + 0.055) * Math.pow(b, (1.0 / 2.4)) - 0.055;
-    let maxValue = Math.max(r, g, b);
-    r /= maxValue;
-    g /= maxValue;
-    b /= maxValue;
-    r = r * 255; if (r < 0) { r = 255 };
-    g = g * 255; if (g < 0) { g = 255 };
-    b = b * 255; if (b < 0) { b = 255 };
-    return `rgb(${r}, ${g}, ${b})`;
 }
