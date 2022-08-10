@@ -16,7 +16,6 @@ export default function Light(props) {
     useEffect(() => {
         const interval = setInterval(() => {
             ; (async () => {
-                console.log(`Fetching light state for light ${light.metadata.name}`);
                 try {
                     const res = await fetch(`/api/light/${light.id}`);
                     const json = await res.json();
