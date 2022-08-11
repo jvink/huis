@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const Header = () => {
+const Header = ({ night }) => {
   return (
     <div
       style={{
@@ -9,7 +9,7 @@ const Header = () => {
         left: "50%",
         transform: "translate(-50%)",
         zIndex: 5,
-        color: "hsl(240,16%,35%)",
+        color: night ? "hsl(240,16%,35%)" : "hsl(197,98%,90%)",
         fontFamily: "satoshi",
         fontSize: "2rem",
         textAlign: "center",
@@ -21,7 +21,7 @@ const Header = () => {
         transition={{ delay: 1 }}
         animate={{ opacity: 1 }}
       >
-        <span style={{ color: "hsl(240,16%,35%)" }}> DLP</span> <br /> Lights
+        <span> DLP</span> <br /> Lights
       </motion.h1>
     </div>
   );

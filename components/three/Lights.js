@@ -1,43 +1,41 @@
-import ColorConverter from "cie-rgb-color-converter";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { motion } from "framer-motion-3d";
+import { useHelper } from "@react-three/drei";
+import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper";
+import { useControls } from "leva";
+import { useLightColor } from "../../hooks/useLightColor";
 
 const lightpositions = {
   "bd062eb7-b665-409d-a4d8-f7f37853d5d8": {
-    position: [-1, 2.8, -5],
+    position: [-0.2, 1.8, -6.2],
     name: "Tijdelijke lamp",
+    rotation: [Math.PI * -0.5, 0, 0],
   },
   "933b40f7-8ca7-4e5e-9fbf-5994a6f641b1": {
-    position: [-2, 1, 2.7],
+    position: [-2.5, 1, 2.7],
     rotation: [0, Math.PI * 0, Math.PI * -0.5],
     name: "Hue lightstrip",
   },
   "8a51ba14-0c92-4068-9504-ee8280cb83fe": {
-    position: [1.5, 2.8, -2.5],
+    position: [2.3, 3, -3.6],
     name: "Ronald",
+    rotation: [Math.PI * -0.5, 0, 0],
   },
   "703a01e7-00c0-43c6-b1b9-a3884db0fcaa": {
-    position: [3, 0, -5.5],
+    position: [4, 0.1, -6.3],
     name: "Bloom links",
     rotation: [Math.PI * 0.5, 0, 0],
   },
 };
 
-export const getRGB = (x, y, brightness) =>
-  ColorConverter.xyBriToRgb(x, y, brightness);
-
-const rgbColorStringToHexColor = ({ r, g, b }) => {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-};
-
-const Lights = ({ lights }) => {
+const Lights = ({ lights, night }) => {
   return (
     <group position={[0, -3, 0]}>
       <directionalLight
         castShadow
-        intensity={5}
+        intensity={night ? 5 : 1}
         position={[4, 10, -10]}
-        color="#1e1e2b"
+        color={night ? "#1e1e2b" : "#f2f2f2"}
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
         shadow-camera-far={30}
@@ -57,45 +55,18 @@ const Lights = ({ lights }) => {
 
 const Light = (props) => {
   const { light } = props;
-  const initialColorFromXy = getRGB(
-    light.color.xy.x,
-    light.color.xy.y,
-    light.dimming.brightness
-  );
-  const initialColor = light.on.on
-    ? rgbColorStringToHexColor(initialColorFromXy)
-    : "#000000";
-  const [color, setColor] = useState(initialColor);
-  const POLL_INTERVAL = 1000 * 3; // 3 seconds
-  const randomExtraTime = Math.floor(Math.random() * (500 - 50 + 1) + 50); // 50-500ms random extra time
+  const { lightHelpers } = useControls({
+    lightHelpers: false,
+  });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      (async () => {
-        try {
-          const res = await fetch(`/api/light/${light.id}`);
-          const json = await res.json();
-          const newLight = json[0];
-          const newColor = getRGB(
-            newLight.color.xy.x,
-            newLight.color.xy.y,
-            newLight.dimming.brightness
-          );
-
-          console.log(newLight);
-
-          setColor(
-            newLight.on.on ? rgbColorStringToHexColor(newColor) : "#000000"
-          );
-        } catch (error) {}
-      })();
-    }, POLL_INTERVAL + randomExtraTime);
-
-    return () => clearTimeout(interval);
-  }, []);
+  //helpers
+  const rectAreaLight = useRef();
+  useHelper(lightHelpers && rectAreaLight, RectAreaLightHelper, "#fff");
+  const color = useLightColor(light);
 
   return (
     <motion.rectAreaLight
+      ref={rectAreaLight}
       key={light.id}
       animate={{ color: color }}
       transition={{ duration: 1 }}

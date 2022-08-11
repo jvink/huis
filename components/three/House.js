@@ -6,16 +6,23 @@ import React, { useRef } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { motion } from "framer-motion-3d";
+import { useLightColor } from "../../hooks/useLightColor";
 
 const ease = [0.6, 0.05, -0.01, 0.9];
 
 export function House(props) {
+  const { lights } = props;
   const { nodes, materials } = useGLTF("/house.glb");
   const texture = useTexture("./WoodFlooringAshBrickBondEbonyDark001_flat.jpg");
+  const colorTijdelijk = useLightColor(lights[0]);
+  const colorLightStrip = useLightColor(lights[1]);
+  const colorRonald = useLightColor(lights[2]);
+  const colorBloom = useLightColor(lights[3]);
 
+  console.log(lights);
   const material = new THREE.MeshPhysicalMaterial({
-    roughness: 0.5,
-    color: "#f3f3f3",
+    roughness: 0.8,
+    color: "#fff",
   });
 
   console.log("test");
@@ -33,131 +40,87 @@ export function House(props) {
         receiveShadow
         geometry={nodes.Plane.geometry}
         material={materials.WoodFlooringAshBrickBondEbonyDark001_4K}
-        position={[0, 0.01106, 0]}
+        position={[0, 0.02, 0]}
         scale={[0.5, 1, 0.5]}
       >
-        <meshPhysicalMaterial map={texture} roughness={0.5} />
+        <meshStandardMaterial attach="material" roughness={0.5} map={texture} />
       </mesh>
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Cube.geometry}
+        geometry={nodes.walls.geometry}
         material={material}
         position={[-6.9, 1.5, 0]}
-        scale={[0.375, 0.5, 0.5]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube003.geometry}
-        material={material}
-        position={[-2.36765, 1.5, -4.6]}
-        rotation={[0, Math.PI / 2, 0]}
-        scale={[0.5, 0.5, 0.51471]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube001.geometry}
-        material={material}
-        position={[6.9, 1.5, 0]}
-        scale={0.5}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube002.geometry}
-        material={material}
-        position={[-2.36765, 1.5, 4.4]}
-        rotation={[0, Math.PI / 2, 0]}
-        scale={[0.5, 0.5, 0.51471]}
+        scale={[0.38, 0.5, 0.5]}
       ></mesh>
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Cube004.geometry}
+        geometry={nodes.block.geometry}
         material={material}
-        position={[2.7, 1.5, -2.96591]}
-        scale={[0.5, 0.5, 0.17045]}
+        position={[1.22, -0.99, 0]}
+        scale={[8.22, 1, 8.22]}
       />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube005.geometry}
-        material={material}
-        position={[4.12353, 1.5, -1.4]}
-        rotation={[0, Math.PI / 2, 0]}
-        scale={[0.5, 0.5, 0.14706]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube006.geometry}
-        material={material}
-        position={[2.7, 1.5, -0.65316]}
-        scale={[0.5, 0.5, 0.06683]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube007.geometry}
-        material={material}
-        position={[4.12353, 1.5, 0.1]}
-        rotation={[0, Math.PI / 2, 0]}
-        scale={[0.5, 0.5, 0.14706]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube009.geometry}
-        material={material}
-        position={[4.7, 1.5, 2.40908]}
-        scale={[0.5, 0.5, 0.17045]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube010.geometry}
-        material={material}
-        position={[2.7, 1.5, 2.40908]}
-        scale={[0.5, 0.5, 0.17045]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube011.geometry}
-        material={material}
-        position={[2.32353, 1.5, 0.71735]}
-        rotation={[0, Math.PI / 2, 0]}
-        scale={[0.5, 0.5, 0.14706]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube008.geometry}
-        material={material}
-        position={[-4.98824, 1.5, 0.71735]}
-        rotation={[0, Math.PI / 2, 0]}
-        scale={[0.5, 0.5, 0.4902]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube012.geometry}
-        material={material}
-        position={[-3.3, 1.5, 2.40908]}
-        scale={[0.5, 0.5, 0.17045]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Cube013.geometry}
-        material={materials["Material.001"]}
-        position={[1.22237, -0.99374, 0]}
-        scale={[8.22237, 1, 8.22237]}
-      >
-        <meshPhysicalMaterial color="#f2f2f2" roughness={0.5} />
-      </mesh>
+      <group position={[-3.7, 2.36, -2.34]} rotation={[-Math.PI, 1.57, 0]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere.geometry}
+          material={materials["Material.002"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere_1.geometry}
+          material={materials["Material.001"]}
+        >
+          <motion.meshBasicMaterial
+            animate={{ color: colorRonald }}
+            attach="material"
+            roughness={0.5}
+          />
+        </mesh>
+      </group>
+      <group position={[-6.17, 1.42, -0.04]} rotation={[-Math.PI, 1.19, 0]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere001.geometry}
+          material={materials["Material.002"]}
+        ></mesh>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere001_1.geometry}
+          material={materials.Material}
+        >
+          <motion.meshBasicMaterial
+            animate={{ color: colorTijdelijk }}
+            attach="material"
+            roughness={0.5}
+          />
+        </mesh>
+      </group>
+      <group position={[-4.34, 2.79, -0.85]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere002.geometry}
+          material={materials["Material.001"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Sphere002_1.geometry}
+          material={materials["Material.002"]}
+        >
+          <motion.meshBasicMaterial
+            attach="material"
+            roughness={0.5}
+            animate={{ color: colorBloom }}
+          />
+        </mesh>
+      </group>
     </motion.group>
   );
 }

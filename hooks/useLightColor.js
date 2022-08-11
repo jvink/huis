@@ -1,20 +1,21 @@
-import ColorConverter from "cie-rgb-color-converter";
 import { useEffect, useState } from "react";
-
-import styles from "../styles/Light.module.css";
+import ColorConverter from "cie-rgb-color-converter";
 
 export const getRGB = (x, y, brightness) =>
   ColorConverter.xyBriToRgb(x, y, brightness);
 
-export default function Light(props) {
-  const { light } = props;
+export const rgbColorStringToHexColor = ({ r, g, b }) => {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+};
+
+export const useLightColor = (light) => {
   const initialColorFromXy = getRGB(
     light.color.xy.x,
     light.color.xy.y,
     light.dimming.brightness
   );
   const initialColor = light.on.on
-    ? `rgb(${initialColorFromXy.r}, ${initialColorFromXy.g}, ${initialColorFromXy.b})`
+    ? rgbColorStringToHexColor(initialColorFromXy)
     : "#000000";
   const [color, setColor] = useState(initialColor);
   const POLL_INTERVAL = 1000 * 3; // 3 seconds
@@ -33,7 +34,9 @@ export default function Light(props) {
             newLight.dimming.brightness
           );
 
-          return setColor(`rgb(${newColor.r}, ${newColor.g}, ${newColor.b})`);
+          setColor(
+            newLight.on.on ? rgbColorStringToHexColor(newColor) : "#000000"
+          );
         } catch (error) {}
       })();
     }, POLL_INTERVAL + randomExtraTime);
@@ -41,5 +44,5 @@ export default function Light(props) {
     return () => clearTimeout(interval);
   }, []);
 
-  return <div className={styles.light} style={{ backgroundColor: color }} />;
-}
+  return color;
+};
