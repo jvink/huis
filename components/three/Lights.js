@@ -6,6 +6,11 @@ import { useControls } from "leva";
 import { useLightColor } from "../../hooks/useLightColor";
 
 const lightpositions = {
+  "26b8c8a6-8b1e-43bb-a5f4-a46bd558afa7": {
+    position: [3, 3, 5],
+    rotation: [Math.PI * 0.5, Math.PI * 1, Math.PI * 1],
+    name: "Kleine slaapkamer",
+  },
   "bd062eb7-b665-409d-a4d8-f7f37853d5d8": {
     position: [-0.2, 1.8, -6.2],
     name: "Tijdelijke lamp",
@@ -15,6 +20,11 @@ const lightpositions = {
     position: [-2.5, 1, 2.7],
     rotation: [0, Math.PI * 0, Math.PI * -0.5],
     name: "Hue lightstrip",
+  },
+  "a254f642-06d9-4339-bb1a-6a2a7356760f": {
+    position: [2.5, 1, -1],
+    rotation: [Math.PI * 0.5, Math.PI * 1, Math.PI * 1],
+    name: "Hue lightstrip bar",
   },
   "8a51ba14-0c92-4068-9504-ee8280cb83fe": {
     position: [2.3, 3, -3.6],
@@ -63,6 +73,8 @@ const Light = (props) => {
   const rectAreaLight = useRef();
   useHelper(lightHelpers && rectAreaLight, RectAreaLightHelper, "#fff");
   const color = useLightColor(light);
+
+  if (lightpositions[light.id] === undefined) return null;
 
   return (
     <motion.rectAreaLight
