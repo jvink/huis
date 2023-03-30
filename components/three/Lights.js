@@ -30,10 +30,10 @@ const lightpositions = {
 
 const Lights = ({ lights, night }) => {
   return (
-    <group position={[0, -3, 0]}>
+    <group position={[0, -6, 0]}>
       <directionalLight
         castShadow
-        intensity={night ? 5 : 1}
+        intensity={night ? 6 : 1}
         position={[4, 10, -10]}
         color={night ? "#1e1e2b" : "#f2f2f2"}
         shadow-mapSize-width={2048}
@@ -44,7 +44,12 @@ const Lights = ({ lights, night }) => {
         shadow-camera-top={15}
         shadow-camera-bottom={-15}
         shadowBias={-0.001}
-      />
+      >
+        <orthographicCamera
+          attach="shadow-camera"
+          args={[-8.5, 8.5, 8.5, -8.5, 0.1, 20]}
+        />
+      </directionalLight>
 
       {lights.map((light) => (
         <Light light={light} />

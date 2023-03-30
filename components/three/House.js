@@ -43,24 +43,26 @@ export function House(props) {
         position={[0, 0.02, 0]}
         scale={[0.5, 1, 0.5]}
       >
-        <meshStandardMaterial attach="material" roughness={0.5} map={texture} />
+        <meshStandardMaterial attach="material" roughness={0.8} map={texture} />
       </mesh>
-      <mesh
+      {/* <mesh
         castShadow
         receiveShadow
         geometry={nodes.walls.geometry}
         material={material}
         position={[-6.9, 1.5, 0]}
         scale={[0.38, 0.5, 0.5]}
-      ></mesh>
-      <mesh
+        material-opacity={0.5}
+        material-transpar={0.5}
+      ></mesh> */}
+      {/* <mesh
         castShadow
         receiveShadow
         geometry={nodes.block.geometry}
         material={material}
         position={[1.22, -0.99, 0]}
         scale={[8.22, 1, 8.22]}
-      />
+      /> */}
       <group position={[-3.7, 2.36, -2.34]} rotation={[-Math.PI, 1.57, 0]}>
         <mesh
           castShadow

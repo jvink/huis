@@ -7,7 +7,7 @@ import Scene from "../components/three/Scene";
 import styles from "../styles/Index.module.css";
 
 export default function Index(props) {
-  const { lights, rooms } = props;
+  const { lights } = props;
   const { night } = useControls({
     night: true,
   });
@@ -60,12 +60,40 @@ export async function getStaticProps() {
       },
     }
   );
+
   const lights = (await lightsResult.json()).data;
+
+  // const lights = [
+  //   {
+  //     id: "bd062eb7-b665-409d-a4d8-f7f37853d5d8",
+  //     color: { xy: { x: 0.5, y: 0.5 } },
+  //     dimming: { brightness: 100 },
+  //     on: { on: true },
+  //   },
+  //   {
+  //     id: "933b40f7-8ca7-4e5e-9fbf-5994a6f641b1",
+  //     color: { xy: { x: 0.25, y: 0.75 } },
+  //     dimming: { brightness: 50 },
+  //     on: { on: false },
+  //   },
+  //   {
+  //     id: "8a51ba14-0c92-4068-9504-ee8280cb83fe",
+  //     color: { xy: { x: 0.75, y: 0.25 } },
+  //     dimming: { brightness: 75 },
+  //     on: { on: true },
+  //   },
+  //   {
+  //     id: "703a01e7-00c0-43c6-b1b9-a3884db0fcaa",
+  //     color: { xy: { x: 0.75, y: 0.25 } },
+  //     dimming: { brightness: 75 },
+  //     on: { on: true },
+  //   },
+  // ];
 
   return {
     props: {
       lights,
-      rooms,
+      // rooms,
     },
   };
 }
