@@ -1,22 +1,23 @@
 import Head from "next/head";
-import Header from "../components/Header";
+import Header from "../components/overlay/Header";
 import { useControls } from "leva";
 import { useEffect } from "react";
 
 import Scene from "../components/three/Scene";
 import styles from "../styles/Index.module.css";
+import Loader from "../components/overlay/Loader";
 
 export default function Index(props) {
   const { lights } = props;
   const { night } = useControls({
-    night: true,
+    night: false,
   });
 
-  useEffect(() => {
-    document.getElementsByTagName("canvas")[0].style.background = night
-      ? "linear-gradient(to bottom, #020111 60%, #20202c 100%)"
-      : "linear-gradient(to bottom, #9be2fe 0%,#67d1fb 100%)";
-  }, [night]);
+  // useEffect(() => {
+  //   document.getElementsByTagName("canvas")[0].style.background = night
+  //     ? "linear-gradient(to bottom, #020111 60%, #20202c 100%)"
+  //     : "linear-gradient(to bottom, #9be2fe 0%,#67d1fb 100%)";
+  // }, [night]);
 
   return (
     <>
@@ -31,6 +32,7 @@ export default function Index(props) {
       </Head>
 
       <main className={styles.main}>
+        <Loader />
         <Scene night={night} lights={lights} />
         <Header night={night} />
         {/* <div>

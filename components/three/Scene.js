@@ -1,19 +1,25 @@
 import React, { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
+  Cloud,
+  Environment,
   OrbitControls,
   PerformanceMonitor,
+  Sky,
   SoftShadows,
   Stars,
   Stats,
 } from "@react-three/drei";
-import { EffectComposer } from "@react-three/postprocessing";
+import { DepthOfField, EffectComposer } from "@react-three/postprocessing";
 
 import Lights from "./Lights";
 import { House } from "./House";
-import { useControls } from "leva";
+import { Leva, useControls } from "leva";
 import { Furniture } from "./Furniture";
 import { Kitchen } from "./Kitchen";
+import { Foundation } from "./Foundation";
+import { LightsMeshes } from "./LightsMeshes";
+import CameraControls from "./CameraControls";
 
 const Scene = ({ lights, night }) => {
   const [bad, set] = useState(false);
@@ -26,7 +32,9 @@ const Scene = ({ lights, night }) => {
   });
 
   return (
-    <Canvas orthographic shadows camera={{ position: [50, 50, 100], zoom: 30 }}>
+    <Canvas shadows camera={{ fov: 40 }}>
+      <fog attach="fog" args={["#010010", 20, 50]} />
+      <Leva hidden={true} />
       <PerformanceMonitor onDecline={() => set(true)} />
       {enabled && (
         <SoftShadows
@@ -35,21 +43,34 @@ const Scene = ({ lights, night }) => {
         />
       )}
 
+      <CameraControls />
       <Suspense fallback={null}>
         <group position={[0, -3, 0]} rotation={[0, Math.PI * -0.5, 0]}>
-          <House lights={lights} />
+          {/* <House lights={lights} /> */}
           <Furniture />
           <Kitchen />
+          <Foundation />
+          <LightsMeshes lights={lights} />
         </group>
       </Suspense>
-      {/* <Sky inclination={0.52} /> */}
 
-      {!night && <Environment />}
+      {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -6, 0]} receiveShadow>
+        <planeBufferGeometry attach="geometry" args={[100, 100]} />
+        <meshStandardMaterial attach="material" color="#f2f2f2" />
+      </mesh> */}
+      <Sky sunPosition={[0, 10, 0]} />
+      <Environment preset="city" />
       {night && <Stars radius={50} count={10000} />}
-      <Stats />
-      <Effects />
+      {/* <Effects /> */}
       <Lights night={night} lights={lights} />
-      <OrbitControls />
+      <Cloud
+        position={[0, 15, 0]}
+        opacity={0.5}
+        speed={0.4} // Rotation speed
+        width={10} // Width of the full cloud
+        depth={1.5} // Z-dir depth
+        segments={20} // Number of particles
+      />
     </Canvas>
   );
 };
@@ -57,12 +78,12 @@ const Scene = ({ lights, night }) => {
 const Effects = () => {
   return (
     <EffectComposer>
-      {/* <Bloom
-        intensity={1}
-        luminanceThreshold={0.2}
-        luminanceSmoothing={0}
-        height={400}
-      /> */}
+      <DepthOfField
+        focusDistance={0.1}
+        focalLength={0.02}
+        bokehScale={3}
+        height={480}
+      />
     </EffectComposer>
   );
 };

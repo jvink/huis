@@ -43,22 +43,22 @@ const Lights = ({ lights, night }) => {
     <group position={[0, -6, 0]}>
       <directionalLight
         castShadow
-        intensity={night ? 6 : 1}
+        intensity={night ? 6 : 6}
         position={[4, 10, -10]}
         color={night ? "#1e1e2b" : "#f2f2f2"}
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
+        shadow-mapSize-width={4096}
+        shadow-mapSize-height={4096}
         shadow-camera-far={30}
-        shadow-camera-left={-15}
-        shadow-camera-right={15}
-        shadow-camera-top={15}
-        shadow-camera-bottom={-15}
-        shadowBias={-0.001}
+        shadow-camera-left={-30}
+        shadow-camera-right={30}
+        shadow-camera-top={30}
+        shadow-camera-bottom={-30}
+        shadowBias={-0.0002}
       >
-        <orthographicCamera
+        {/* <orthographicCamera
           attach="shadow-camera"
           args={[-8.5, 8.5, 8.5, -8.5, 0.1, 20]}
-        />
+        /> */}
       </directionalLight>
 
       {lights.map((light) => (

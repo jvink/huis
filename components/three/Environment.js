@@ -5,30 +5,30 @@ import {
   Environment as EnvironmentImpl,
 } from "@react-three/drei";
 
-export const Environment = memo(({ direction = [5, 5, 5] }) => (
+export const Environment = memo(({ direction = [4, 10, -10] }) => (
   <>
     <directionalLight
       position={direction}
       intensity={0.5}
-      shadow-mapSize={1024}
+      shadow-mapSize={2048}
       castShadow
     />
     <directionalLight
       position={[-5, 5, 5]}
       intensity={0.1}
-      shadow-mapSize={128}
+      shadow-mapSize={2048}
       castShadow
     />
     <directionalLight
       position={[-5, 5, -5]}
       intensity={0.1}
-      shadow-mapSize={128}
+      shadow-mapSize={2048}
       castShadow
     />
     <directionalLight
       position={[0, 5, 0]}
       intensity={0.1}
-      shadow-mapSize={128}
+      shadow-mapSize={2048}
       castShadow
     />
     <AccumulativeShadows

@@ -8,7 +8,7 @@ import { useGLTF } from "@react-three/drei";
 export function Furniture(props) {
   const { nodes, materials } = useGLTF("/house-furniture.glb");
   return (
-    <group position={[0, -2.98, 0]} {...props} dispose={null}>
+    <group position={[0, 0.01, 0]} {...props} dispose={null}>
       <group position={[-4.12, 0.45, -4.24]}>
         <mesh
           castShadow

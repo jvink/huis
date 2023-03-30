@@ -8,7 +8,7 @@ import { useGLTF } from "@react-three/drei";
 export function Kitchen(props) {
   const { nodes, materials } = useGLTF("/kitchen.glb");
   return (
-    <group position={[0.13, -3, 0]} {...props} dispose={null}>
+    <group position={[0.13, 0, 0]} {...props} dispose={null}>
       <mesh
         castShadow
         receiveShadow
