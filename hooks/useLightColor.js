@@ -21,28 +21,28 @@ export const useLightColor = (light) => {
   const POLL_INTERVAL = 1000 * 3; // 3 seconds
   const randomExtraTime = Math.floor(Math.random() * (500 - 50 + 1) + 50); // 50-500ms random extra time
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      (async () => {
-        try {
-          const res = await fetch(`/api/light/${light.id}`);
-          const json = await res.json();
-          const newLight = json[0];
-          const newColor = getRGB(
-            newLight.color.xy.x,
-            newLight.color.xy.y,
-            newLight.dimming.brightness
-          );
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     (async () => {
+  //       try {
+  //         const res = await fetch(`/api/light/${light.id}`);
+  //         const json = await res.json();
+  //         const newLight = json[0];
+  //         const newColor = getRGB(
+  //           newLight.color.xy.x,
+  //           newLight.color.xy.y,
+  //           newLight.dimming.brightness
+  //         );
 
-          setColor(
-            newLight.on.on ? rgbColorStringToHexColor(newColor) : "#000000"
-          );
-        } catch (error) {}
-      })();
-    }, POLL_INTERVAL + randomExtraTime);
+  //         setColor(
+  //           newLight.on.on ? rgbColorStringToHexColor(newColor) : "#000000"
+  //         );
+  //       } catch (error) {}
+  //     })();
+  //   }, POLL_INTERVAL + randomExtraTime);
 
-    return () => clearTimeout(interval);
-  }, []);
+  //   return () => clearTimeout(interval);
+  // }, []);
 
   return color;
 };

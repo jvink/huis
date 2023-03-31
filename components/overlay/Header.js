@@ -3,7 +3,7 @@ import { useStore } from "../../store";
 import styles from "../../styles/Header.module.css";
 
 const Header = ({ night }) => {
-  const { setCameraPosition, setCameraLookPosition, setMovement, movement } =
+  const { setCameraPosition, setUIState, setCameraLookPosition, setMovement, movement } =
     useStore();
 
   const handleLights = () => {
@@ -19,20 +19,20 @@ const Header = ({ night }) => {
       z: -1,
     });
     setMovement("free");
+    setUIState("lights")
   };
 
   return (
     <motion.div
-      animate={{
-        x: movement === "start" ? 0 : -600,
+      initial={{
+        x:-600
       }}
+      animate={{x:0}}
+      exit={{x:-600}}
       className={styles.header__wrapper}
     >
       <motion.h1
         className={styles.header}
-        initial={{ opacity: 0 }}
-        transition={{ delay: 1 }}
-        animate={{ opacity: 1 }}
       >
         <span> DLP</span> Home
       </motion.h1>

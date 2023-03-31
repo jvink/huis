@@ -1,14 +1,17 @@
 import Head from "next/head";
-import Header from "../components/overlay/Header";
 import { useControls } from "leva";
-import { useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 
+import Header from "../components/overlay/Header";
 import Scene from "../components/three/Scene";
 import styles from "../styles/Index.module.css";
 import Loader from "../components/overlay/Loader";
+import LightUI from "../components/overlay/LightUI";
+import { useStore } from "../store";
 
 export default function Index(props) {
   const { lights } = props;
+  const { UIState } = useStore()
   const { night } = useControls({
     night: false,
   });
@@ -32,12 +35,12 @@ export default function Index(props) {
       </Head>
 
       <main className={styles.main}>
-        <Loader />
-        <Scene night={night} lights={lights} />
-        <Header night={night} />
-        {/* <div>
-          <Home lights={lights} rooms={rooms} />
-        </div> */}
+        <AnimatePresence>
+          <Loader />
+          <Scene night={night} lights={lights} />
+          {UIState === 'home' && <Header key='header' night={night} />}
+          {UIState === 'light' && <LightUI key='lightui' />}
+        </AnimatePresence>
       </main>
     </>
   );

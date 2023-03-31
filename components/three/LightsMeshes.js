@@ -75,7 +75,7 @@ export function LightsMeshes(props) {
 }
 
 const Annotation = ({ img, cameraPosition, cameraLookPosition }) => {
-  const { setCameraPosition, setCameraLookPosition, setMovement, movement } =
+  const { setCameraPosition, setUIState, setCameraLookPosition, setMovement, movement } =
     useStore();
   return (
     <motion.div
@@ -83,6 +83,7 @@ const Annotation = ({ img, cameraPosition, cameraLookPosition }) => {
         setCameraPosition(cameraPosition);
         setCameraLookPosition(cameraLookPosition);
         setMovement("locked");
+        setUIState('light')
       }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}

@@ -1,15 +1,17 @@
 .header__wrapper {
-  width: 100%;
+  width: fit-content;
+  height:100%;
   padding: 32px;
   position: absolute;
   top: 0px;
+  background-color: #fff;
   z-index: 2;
 }
 
 .header {
   font-family: "Satoshi", sans-serif;
   margin: 0px;
-  font-size: 96px;
+  font-size: 46px;
   font-weight: 700;
 }
 

@@ -12,7 +12,9 @@ export const useStore = create((set) => ({
     z: 0,
   },
   movement: "start",
+  UIState: "home",
   setMovement: (movement) => set({ movement }),
   setCameraPosition: (cameraPosition) => set({ cameraPosition }),
   setCameraLookPosition: (cameraLookPosition) => set({ cameraLookPosition }),
+  setUIState: (UIState) => set({ UIState })
 }));

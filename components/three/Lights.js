@@ -40,7 +40,7 @@ const lightpositions = {
 
 const Lights = ({ lights, night }) => {
   return (
-    <group position={[0, -6, 0]}>
+    <group position={[0, -3, 0]}>
       <directionalLight
         castShadow
         intensity={night ? 6 : 6}
@@ -53,7 +53,7 @@ const Lights = ({ lights, night }) => {
         shadow-camera-right={30}
         shadow-camera-top={30}
         shadow-camera-bottom={-30}
-        shadowBias={-0.0002}
+        shadowBias={-0.0003}
       >
         {/* <orthographicCamera
           attach="shadow-camera"
@@ -78,7 +78,7 @@ const Light = (props) => {
   const rectAreaLight = useRef();
   useHelper(lightHelpers && rectAreaLight, RectAreaLightHelper, "#fff");
   const color = useLightColor(light);
-
+  console.log(color)
   if (lightpositions[light.id] === undefined) return null;
 
   return (
