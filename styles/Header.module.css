@@ -6,6 +6,12 @@
   top: 0px;
   background-color: #fff;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.header__wrapper__list {
+  flex: 1;
 }
 
 .header {

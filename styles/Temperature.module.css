@@ -1,0 +1,38 @@
+.temperature {
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+    /* padding: 2rem; */
+    font-size: 1.5rem;
+    font-weight: 500;
+    height: 97px;
+}
+
+.temperatureDay {
+    background-color: #61b5ff;
+    color: #000;
+}
+
+.temperatureNight {
+    background-color: #0e2b44;
+    color: #fff;
+}
+
+.temperatureInfo {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem 1rem 0 1rem;
+}
+
+.temperatureInfoCelcius {
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.temperatureInfoHumidity {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+}
