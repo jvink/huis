@@ -48,7 +48,13 @@ export default function Index(props) {
 }
 
 export async function getStaticProps() {
-  const tempDataResult = await prisma.tempData.findMany({});
+  const tempDataResult = await prisma.tempData.findMany({
+    where: {
+      createdAt: {
+        gte: new Date(new Date().setHours(0, 0, 0, 0)),
+      },
+    },
+  });
   const tempData = JSON.parse(JSON.stringify(tempDataResult));
   const roomsResult = await fetch(
     `${process.env.HUE_BRIDGE_IP}${process.env.HUE_BASE_URL}room`,
